@@ -1,0 +1,54 @@
+<! DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa JW Artistas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+
+    <div class="sticky top-0 bg-gray-100 pb-4 z-10">
+        <input type="text" id="buscador" placeholder="🔍 Buscar artista o rally..." 
+            class="w-full p-3 rounded-lg shadow border border-gray-300 text-lg outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div id="lista-artistas" class="space-y-4 pb-20"></div>
+
+    <script>
+        const artistas = [
+            { nombre: "Artista Ejemplo 1", stand: "Artist House 62", rally: "Pokémon", catalogo: "https://instagram.com/" }
+        ];
+
+        const contenedor = document.getElementById('lista-artistas');
+        const buscador = document.getElementById('buscador');
+
+        function renderizar(filtro = "") {
+            contenedor.innerHTML = "";
+            const filtrados = artistas.filter(a => 
+                a.nombre.toLowerCase().includes(filtro.toLowerCase()) || 
+                a.rally.toLowerCase().includes(filtro.toLowerCase())
+            );
+
+            filtrados.forEach(a => {
+                const rallyBadge = a.rally !== "Ninguno" ? `<span class="bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-1 rounded-full">Rally: ${a.rally}</span>` : '';
+                const linkBtn = a.catalogo ? `<a href="${a.catalogo}" target="_blank" class="mt-3 block text-center bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-sm">Ver Catálogo</a>` : '';
+
+                contenedor.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                        <h2 class="text-xl font-bold text-gray-800">${a.nombre}</h2>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="bg-gray-800 text-white text-sm font-bold px-2 py-1 rounded">📍 ${a.stand}</span>
+                            ${rallyBadge}
+                        </div>
+                        ${linkBtn}
+                    </div>
+                `;
+            });
+        }
+
+        buscador.addEventListener('input', (e) => renderizar(e.target.value));
+        renderizar();
+    </script>
+</body>
+</html>
