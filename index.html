@@ -13,7 +13,7 @@
             class="w-full p-3 rounded-lg shadow border border-gray-300 text-lg outline-none focus:ring-2 focus:ring-blue-500">
     </div>
 
-    <div id="lista-artistas" class="space-y-4 pb-20"></div>
+    <div id="lista-artistas" class="space-y-2 pb-20"></div>
 
     <script>
         const artistas = [
@@ -395,27 +395,40 @@
         const buscador = document.getElementById('buscador');
 
         function renderizar(filtro = "") {
-            contenedor.innerHTML = "";
+            const filtroLimpio = filtro.toLowerCase().trim();
             const filtrados = artistas.filter(a => 
-                a.nombre.toLowerCase().includes(filtro.toLowerCase()) || 
-                a.rally.toLowerCase().includes(filtro.toLowerCase())
+                a.nombre.toLowerCase().includes(filtroLimpio) || 
+                a.rally.toLowerCase().includes(filtroLimpio) ||
+                a.stand.toLowerCase().includes(filtroLimpio)
             );
 
-            filtrados.forEach(a => {
-                const rallyBadge = a.rally !== "Ninguno" ? `<span class="bg-yellow-200 text-yellow-800 text-xs font-bold px-2 py-1 rounded-full">Rally: ${a.rally}</span>` : '';
-                const linkBtn = a.catalogo ? `<a href="${a.catalogo}" target="_blank" class="mt-3 block text-center bg-blue-600 text-white py-2 rounded-lg font-semibold shadow-sm">Ver Catálogo</a>` : '';
+            const limite = filtroLimpio === "" ? 30 : filtrados.lenght;
+            const resultados = filtrados.slice(0, limite);
 
-                contenedor.innerHTML += `
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                        <h2 class="text-xl font-bold text-gray-800">${a.nombre}</h2>
-                        <div class="flex items-center gap-2 mt-2">
-                            <span class="bg-gray-800 text-white text-sm font-bold px-2 py-1 rounded">📍 ${a.stand}</span>
+            let htmlFragmento = "";
+
+            resultados.forEach(a => {
+                const tieneRally = a.rally !== "Ninguno" && a.rally !== "";
+                const rallyBadge = tieneRally ? `<div class="mt-1.5"><span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded border border-yellow-300 uppercase tracking-wide">${a.rally}</span></div>` : '';
+                const linkBtn = a.catalogo ? `>a href="${a.catalogo}" target="_blank" class="flex-shrink-0 bg-blue-50 text-blue-600 px-3 py-1.5 rounded text-sm font-semibold border border-blue-200">Catálogo</a>`: '';
+
+                htmlFragmento += `
+                    <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between gap-2">
+                        <div class="flex-col overflow-hidden">
+                            <h2 class="text-sm font-bold text-gray-900 truncate">${a.nombre}</h2>
+                            <p class="text-xs text-gray-600 truncate">${a.stand}</p>
                             ${rallyBadge}
                         </div>
                         ${linkBtn}
                     </div>
-                `;
+                `;    
             });
+
+            if (filtroLimpio === "" && filtrados.lenght > limite) {
+                htmlFragmento += `<div class="text-center text-gray-500 text-sm py-4">Mostrando ${limite} de ${filtrados.lenght}. Usa el buscador para ver el resto.</div>`;
+            }
+
+            contenedor.innerHTML = htmlFragmento;
         }
 
         buscador.addEventListener('input', (e) => renderizar(e.target.value));
