@@ -17,7 +17,7 @@
 
     <script>
         const artistas = [
-            { nombre: "Umi Kuma", stand: "AH-1 (Planta 0 - Curva Este)", rally: "Ninguno", catalogo: "https://instagram.com/_umikuma_" },
+            { nombre: "Umi Kuma", stand: "AH-1 (Planta 0 - Curva Este)", rally: "Liella", catalogo: "https://drive.google.com/file/d/11JdXAc2X8jutBomv5QkUQxpVFtWy4aE1/view" },
             { nombre: "Siplick", stand: "AH-2 (Planta 0 - Curva Este)", rally: "Ninguno", catalogo: "https://instagram.com/Siplick" },
             { nombre: "Fawkes Art", stand: "AH-3 (Planta 0 - Curva Este)", rally: "Ninguno", catalogo: "https://x.com/fawkesartt" },
             { nombre: "Tanukyart & Tomotoad", stand: "AH-4 (Planta 0 - Curva Este)", rally: "Ninguno", catalogo: "https://instagram.com/tanukyarts" },
@@ -409,23 +409,21 @@
 
             resultados.forEach(a => {
                 const tieneRally = a.rally !== "Ninguno" && a.rally !== "";
-                const rallyBadge = tieneRally ? `<div class="mt-1.5"><span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded border border-yellow-300 uppercase tracking-wide">${a.rally}</span></div>` : '';
-                const linkBtn = a.catalogo ? `>a href="${a.catalogo}" target="_blank" class="flex-shrink-0 bg-blue-50 text-blue-600 px-3 py-1.5 rounded text-sm font-semibold border border-blue-200">Catálogo</a>`: '';
+                const rallyBadge = tieneRally ? `<div class="mt-2"><span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">${a.rally}</span></div>` : '';
+                const linkBtn = a.catalogo ? `<a href="${a.catalogo}" target="_blank" class="block w-full text-center bg-blue-600 text-white font-semibold py-2.5 mt-3 rounded-lg active:bg-blue-700">Catálogo</a>`: '';
 
                 htmlFragmento += `
-                    <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between gap-2">
-                        <div class="flex-col overflow-hidden">
-                            <h2 class="text-sm font-bold text-gray-900 truncate">${a.nombre}</h2>
-                            <p class="text-xs text-gray-600 truncate">${a.stand}</p>
-                            ${rallyBadge}
-                        </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col">
+                        <h2 class="text-lg font-bold text-gray-900 leading-tight">${a.nombre}</h2>
+                        <p class="text-sm text-gray-600 mt-1">${a.stand}</p>
+                        ${rallyBadge}
                         ${linkBtn}
                     </div>
                 `;    
             });
 
-            if (filtroLimpio === "" && filtrados.lenght > limite) {
-                htmlFragmento += `<div class="text-center text-gray-500 text-sm py-4">Mostrando ${limite} de ${filtrados.lenght}. Usa el buscador para ver el resto.</div>`;
+            if (filtroLimpio === "" && filtrados.length > limite) {
+                htmlFragmento += `<div class="text-center text-gray-500 text-sm py-4 font-medium">Mostrando ${limite} de ${filtrados.length}. Usa el buscador para ver el resto.</div>`;
             }
 
             contenedor.innerHTML = htmlFragmento;
