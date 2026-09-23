@@ -402,7 +402,7 @@
                 a.stand.toLowerCase().includes(filtroLimpio)
             );
 
-            const limite = filtroLimpio === "" ? 30 : filtrados.lenght;
+            const limite = filtroLimpio === "" ? 30 : filtrados.length;
             const resultados = filtrados.slice(0, limite);
 
             let htmlFragmento = "";
@@ -410,7 +410,7 @@
             resultados.forEach(a => {
                 const tieneRally = a.rally !== "Ninguno" && a.rally !== "";
                 const rallyBadge = tieneRally ? `<div class="mt-2"><span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">${a.rally}</span></div>` : '';
-                const linkBtn = a.catalogo ? `<a href="${a.catalogo}" target="_blank" class="block w-full text-center bg-blue-600 text-white font-semibold py-2.5 mt-3 rounded-lg active:bg-blue-700">Catálogo</a>`: '';
+                const linkBtn = a.catalogo ? `<a href="${a.catalogo}" target="_blank" class="block w-full text-center bg-blue-600 text-white font-semibold py-2.5 mt-3 rounded-lg active:bg-blue-700"> Catálogo</a>` : '';
 
                 htmlFragmento += `
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col">
