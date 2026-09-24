@@ -19,7 +19,7 @@
         const artistas = [
             { nombre: "Umi Kuma", stand: "AH-1 (Planta 0 - Curva Este)", rally: "Liella", catalogo: "https://drive.google.com/file/d/11JdXAc2X8jutBomv5QkUQxpVFtWy4aE1/view" },
             { nombre: "Siplick", stand: "AH-2 (Planta 0 - Curva Este)", rally: "", catalogo: "" },
-            { nombre: "Fawkes Art", stand: "AH-3 (Planta 0 - Curva Este)", rally: "", catalogo: "https://fawkesart.sumupstore.com/" },
+            { nombre: "Fawkes Art", stand: "AH-3 (Planta 0 - Curva Este)", rally: "", catalogo: "https://x.com/fawkesartt/status/2100899359667740868" },
             { nombre: "Tanukyart & Tomotoad", stand: "AH-4 (Planta 0 - Curva Este)", rally: "Otome y Haikyuu", catalogo: "https://tomotoad.carrd.co/" },
             { nombre: "SamuDL & Cerealex", stand: "AH-5 (Planta 0 - Curva Este)", rally: "", catalogo: "https://x.com/SamuDL/status/2100256657833910660" },
             { nombre: "Danilo Vaz & Bonncy", stand: "AH-6 (Planta 0 - Curva Este)", rally: "", catalogo: "https://x.com/danilovaz_art/status/2100231765277200789" /*https://x.com/bonn_cy/status/2100233514385912163*/ },
@@ -410,7 +410,21 @@
             resultados.forEach(a => {
                 const tieneRally = a.rally !== "Ninguno" && a.rally !== "";
                 const rallyBadge = tieneRally ? `<div class="mt-2"><span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200">${a.rally}</span></div>` : '';
-                const linkBtn = a.catalogo ? `<a href="${a.catalogo}" target="_blank" class="block w-full text-center bg-blue-600 text-white font-semibold py-2.5 mt-3 rounded-lg active:bg-blue-700"> Catálogo</a>` : '';
+                
+                let linkBtn = '';
+                if (a.catalogo) {
+                    const enlaces = a.catalogo.split(/[\s,]+/).filter(url => url.trim() !== "");
+
+                    if (enlaces.length === 1) {
+                        linkBtn = `<a href="${enlaces[0]}" target="_blank" class="block w-full text-center bg-blue-600 text-white font-semibold py-2.5 mt-3 rounded-lg active:bg-blue-700">Ir al Catálogo</a>`;
+                    } else {
+                        linkBtn = '<div class="flex gap-2 mt-3">';
+                        enlaces.forEach((url, indice) => {
+                            linkBtn += `<a href="${url}" target="_blank" class="block w-full text-center bg-blue-600 text-white font-semibold py-2.5 rounded-lg active:bg-blue-700">Catálogo ${indice + 1}</a>`;
+                        });
+                        linkBtn += '</div>';
+                    }
+                }
 
                 htmlFragmento += `
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col">
